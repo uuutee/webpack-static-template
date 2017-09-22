@@ -12,22 +12,17 @@ module.exports = [
       path: path.resolve(__dirname, './dist/js'),
       filename: 'bundle.js'
     },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }],
-          exclude: /node_modules(?!\/webpack-dev-server)/,
-        },
-      ]
-    },
     plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        compress: {
-          warnings: false
-        }
-      }),
+      // webpack-dev-server のバグがあるのでコメントアウト
+      // (undefined) bundle.js from UglifyJs Unexpected token: name (urlParts)
+      // https://github.com/webpack/webpack-dev-server/issues/1101
+      // 
+      // new webpack.optimize.UglifyJsPlugin({
+      //   sourceMap: true,
+      //   compress: {
+      //     warnings: false
+      //   }
+      // }),
       new HtmlWebpackPlugin({
         filename: '../index.html',
         template:  'ejs-render-loader!./src/index.ejs'
