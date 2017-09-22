@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = [
   {
@@ -13,6 +14,7 @@ module.exports = [
       filename: 'bundle.js'
     },
     plugins: [
+      new CleanWebpackPlugin(['dist']),
       new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         compress: {

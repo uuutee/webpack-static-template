@@ -10,6 +10,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.7",
     "ejs": "^2.5.7",
     "ejs-render-loader": "^1.0.0",
