@@ -5,11 +5,13 @@
   "author": "uuutee <uuuteenet@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --hot",
+    "dev": "webpack-dev-server --hot --inline",
     "build": "webpack"
   },
   "devDependencies": {},
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "css-loader": "^0.28.7",
     "ejs": "^2.5.7",
     "ejs-render-loader": "^1.0.0",

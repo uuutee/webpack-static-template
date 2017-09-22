@@ -12,13 +12,31 @@ module.exports = [
       path: path.resolve(__dirname, './dist/js'),
       filename: 'bundle.js'
     },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }],
+          exclude: /node_modules(?!\/webpack-dev-server)/,
+        },
+      ]
+    },
     plugins: [
-      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        sourceMap: true,
+        compress: {
+          warnings: false
+        }
+      }),
       new HtmlWebpackPlugin({
         filename: '../index.html',
         template:  'ejs-render-loader!./src/index.ejs'
       })
-    ]
+    ],
+    devServer: {
+      historyApiFallback: true,
+      noInfo: true
+    },
   },
   {
     entry: {
@@ -32,7 +50,6 @@ module.exports = [
       rules: [
         {
           test: /\.scss$/,
-          exclude: /node_modules/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
@@ -45,7 +62,8 @@ module.exports = [
               },
               'sass-loader'
             ]
-          })
+          }),
+          exclude: /node_modules/,
         }
       ]
     },
@@ -54,3 +72,4 @@ module.exports = [
     ]
   }
 ];
+
