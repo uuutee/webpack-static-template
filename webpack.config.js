@@ -1,8 +1,23 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+// for ejs
+const fromPairs = require('lodash/frompairs');
+const glob = require('glob');
+const config = {
+  input: './src',
+  output: './dist'
+};
+const files = glob.sync(`${path.resolve(config.input)}/**/!(_)*.+(ejs|htm|html)`);
+const entry = fromPairs(
+  files.map(filePath => [
+    filePath.replace(path.resolve(config.input), '').replace(/\.(?:ejs|html?)$/, ''),
+    filePath,
+  ])
+);
 
 module.exports = [
   {
@@ -21,10 +36,6 @@ module.exports = [
           warnings: false
         }
       }),
-      new HtmlWebpackPlugin({
-        filename: '../index.html',
-        template:  'ejs-render-loader!./src/index.ejs'
-      })
     ],
     devServer: {
       historyApiFallback: true,
@@ -67,6 +78,32 @@ module.exports = [
       historyApiFallback: true,
       noInfo: true
     },
-  }
+  },
+  {
+    entry: entry,
+    output: {
+      path: path.resolve(config.output),
+      filename: '[name].html',
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(?:ejs|html?)$/,
+          use: ExtractTextPlugin.extract('raw-loader!ejs-html-loader'),
+          exclude: /node_modules/,
+        },
+      ],
+    },
+    plugins: [
+      new ExtractTextPlugin('[name].html')
+    ],
+    devServer: {
+      historyApiFallback: true,
+      noInfo: true
+    },
+  },
 ];
+
+
+
 
