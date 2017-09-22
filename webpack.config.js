@@ -13,16 +13,12 @@ module.exports = [
       filename: 'bundle.js'
     },
     plugins: [
-      // webpack-dev-server のバグがあるのでコメントアウト
-      // (undefined) bundle.js from UglifyJs Unexpected token: name (urlParts)
-      // https://github.com/webpack/webpack-dev-server/issues/1101
-      // 
-      // new webpack.optimize.UglifyJsPlugin({
-      //   sourceMap: true,
-      //   compress: {
-      //     warnings: false
-      //   }
-      // }),
+      new webpack.optimize.UglifyJsPlugin({
+        sourceMap: true,
+        compress: {
+          warnings: false
+        }
+      }),
       new HtmlWebpackPlugin({
         filename: '../index.html',
         template:  'ejs-render-loader!./src/index.ejs'
