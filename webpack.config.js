@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // for ejs
 const fromPairs = require('lodash/frompairs');
@@ -29,7 +28,6 @@ module.exports = [
       filename: 'bundle.js'
     },
     plugins: [
-      new CleanWebpackPlugin(['dist']),
       new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         compress: {
